@@ -1,1 +1,9 @@
+# Macos
 .DS_Store
+
+# Python
+*venv/
+*__pycache__/
+
+# Environment variables
+.env
