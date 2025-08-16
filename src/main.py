@@ -7,6 +7,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from bot import TelegramBot
+from command_handlers_registry import CommandHandlersRegistry
 
 # Load environment variables from .env file
 load_dotenv()
@@ -22,7 +23,11 @@ def main():
         return
     
     try:
-        bot = TelegramBot(bot_token)
+        # Create command handlers registry
+        command_handlers_registry = CommandHandlersRegistry()
+        
+        # Create bot instance with dependency injection
+        bot = TelegramBot(bot_token, command_handlers_registry)
         bot.run()
     except KeyboardInterrupt:
         print("\nThe bot stopped by the user.")

@@ -1,5 +1,5 @@
 from typing import Optional
-from .commands.icommand_handler import ICommandHandler
+from commands.icommand_handler import ICommandHandler
 
 
 class CommandHandlersRegistry:

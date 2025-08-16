@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from .commands.icommand_handler import ICommandHandler
+from commands.icommand_handler import ICommandHandler
 
 
 class ICommandHandlersRegistry(ABC):
