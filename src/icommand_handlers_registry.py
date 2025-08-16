@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 from .commands.icommand_handler import ICommandHandler
 
 
@@ -26,5 +27,18 @@ class ICommandHandlersRegistry(ABC):
         
         Args:
             command (str): The command name to remove (e.g., '/start', '/help')
+        """
+        pass
+    
+    @abstractmethod
+    def get(self, command: str) -> Optional[ICommandHandler]:
+        """
+        Get a command handler from the registry by command name.
+        
+        Args:
+            command (str): The command name to retrieve (e.g., '/start', '/help')
+            
+        Returns:
+            Optional[ICommandHandler]: The command handler if found, None otherwise
         """
         pass
