@@ -28,3 +28,12 @@ class TelegramBot:
             self.application.run_polling()
         except KeyboardInterrupt:
             print("Stopping GServerBot...")
+    
+    def get_registered_handlers(self):
+        """
+        Get all registered command handlers from the command handlers manager.
+        
+        Returns:
+            List[ICommandHandler]: A list of all registered handlers
+        """
+        return self.command_handlers_manager.get_registered_handlers()
