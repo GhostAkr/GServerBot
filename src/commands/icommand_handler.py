@@ -11,7 +11,7 @@ class ICommandHandler(ABC):
     """
     
     @abstractmethod
-    def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """
         Handle the command execution.
         

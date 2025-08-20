@@ -6,7 +6,7 @@ from telegram.ext import ContextTypes
 class PingCommandHandler(ICommandHandler):
     """Command handler for the /ping command."""
     
-    def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    async def handle(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """
         Handle the /ping command by sending "I'm alive." message.
 
@@ -14,7 +14,7 @@ class PingCommandHandler(ICommandHandler):
             update (telegram.Update): The Telegram update object containing the command.
             context (telegram.ext.ContextTypes.DEFAULT_TYPE): The Telegram bot context object.
         """
-        update.message.reply_text("I'm alive.")
+        await update.message.reply_text("I'm alive.")
     
     def name(self) -> str:
         """Get the command name for this handler."""

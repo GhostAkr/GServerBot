@@ -178,7 +178,7 @@ class TestCommandHandlersManager:
         from src.commands.icommand_handler import ICommandHandler
         
         class MockHandler(ICommandHandler):
-            def handle(self, update, context):
+            async def handle(self, update, context):
                 pass
             
             def name(self) -> str:
@@ -243,14 +243,14 @@ class TestCommandHandlersManager:
         from src.commands.icommand_handler import ICommandHandler
         
         class MockHandler1(ICommandHandler):
-            def handle(self, update, context):
+            async def handle(self, update, context):
                 pass
             
             def name(self) -> str:
                 return '/mock1'
         
         class MockHandler2(ICommandHandler):
-            def handle(self, update, context):
+            async def handle(self, update, context):
                 pass
             
             def name(self) -> str:

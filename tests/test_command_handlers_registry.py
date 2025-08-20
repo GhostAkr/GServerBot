@@ -10,7 +10,7 @@ class MockCommandHandler(ICommandHandler):
     def __init__(self, command_name: str):
         self._command_name = command_name
     
-    def handle(self, update, context):
+    async def handle(self, update, context):
         pass
     
     def name(self) -> str:

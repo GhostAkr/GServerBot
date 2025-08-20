@@ -36,45 +36,51 @@ class TestPingCommandHandler:
         """Test that the name method returns the correct command string."""
         assert ping_handler.name() == '/ping'
     
-    def test_ping_handler_handle_sends_correct_message(self, ping_handler, mock_update, mock_context):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_sends_correct_message(self, ping_handler, mock_update, mock_context):
         """Test that the handle method sends the correct reply message."""
-        ping_handler.handle(mock_update, mock_context)
+        await ping_handler.handle(mock_update, mock_context)
         
         mock_update.message.reply_text.assert_called_once_with("I'm alive.")
     
-    def test_ping_handler_handle_calls_reply_text_on_message(self, ping_handler, mock_update, mock_context):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_calls_reply_text_on_message(self, ping_handler, mock_update, mock_context):
         """Test that handle method calls reply_text on the update message."""
-        ping_handler.handle(mock_update, mock_context)
+        await ping_handler.handle(mock_update, mock_context)
         
         assert mock_update.message.reply_text.called
     
-    def test_ping_handler_handle_ignores_context_parameter(self, ping_handler, mock_update, mock_context):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_ignores_context_parameter(self, ping_handler, mock_update, mock_context):
         """Test that handle method works regardless of context content."""
         # Set some arbitrary values on context to ensure they're ignored
         mock_context.some_attribute = "test_value"
         mock_context.another_attribute = 123
         
-        ping_handler.handle(mock_update, mock_context)
+        await ping_handler.handle(mock_update, mock_context)
         
         # Should still work and send the expected message
         mock_update.message.reply_text.assert_called_once_with("I'm alive.")
     
-    def test_ping_handler_handle_with_none_context(self, ping_handler, mock_update):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_with_none_context(self, ping_handler, mock_update):
         """Test that handle method works with None context."""
-        ping_handler.handle(mock_update, None)
+        await ping_handler.handle(mock_update, None)
         
         mock_update.message.reply_text.assert_called_once_with("I'm alive.")
     
-    def test_ping_handler_handle_with_none_update_message(self, ping_handler, mock_context):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_with_none_update_message(self, ping_handler, mock_context):
         """Test that handle method works when update.message is None."""
         update = Mock(spec=Update)
         update.message = None
         
         # This should raise an AttributeError since we can't call reply_text on None
         with pytest.raises(AttributeError):
-            ping_handler.handle(update, mock_context)
+            await ping_handler.handle(update, mock_context)
     
-    def test_ping_handler_handle_with_missing_reply_text_method(self, ping_handler, mock_context):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_with_missing_reply_text_method(self, ping_handler, mock_context):
         """Test that handle method fails gracefully when reply_text method is missing."""
         update = Mock(spec=Update)
         update.message = Mock()
@@ -82,7 +88,7 @@ class TestPingCommandHandler:
         del update.message.reply_text
         
         with pytest.raises(AttributeError):
-            ping_handler.handle(update, mock_context)
+            await ping_handler.handle(update, mock_context)
     
     def test_ping_handler_instance_creation(self):
         """Test that PingCommandHandler can be instantiated."""
@@ -99,15 +105,16 @@ class TestPingCommandHandler:
         assert handler1.name() == handler2.name()
         assert handler1.name() == '/ping'
     
-    def test_ping_handler_handle_called_multiple_times(self, ping_handler, mock_update, mock_context):
+    @pytest.mark.asyncio
+    async def test_ping_handler_handle_called_multiple_times(self, ping_handler, mock_update, mock_context):
         """Test that handle method can be called multiple times."""
         # First call
-        ping_handler.handle(mock_update, mock_context)
+        await ping_handler.handle(mock_update, mock_context)
         mock_update.message.reply_text.assert_called_once_with("I'm alive.")
         
         # Reset mock for second call
         mock_update.message.reply_text.reset_mock()
         
         # Second call
-        ping_handler.handle(mock_update, mock_context)
+        await ping_handler.handle(mock_update, mock_context)
         mock_update.message.reply_text.assert_called_once_with("I'm alive.")
