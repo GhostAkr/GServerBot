@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, List
 from commands.icommand_handler import ICommandHandler
 
 
@@ -40,5 +40,15 @@ class ICommandHandlersRegistry(ABC):
             
         Returns:
             Optional[ICommandHandler]: The command handler if found, None otherwise
+        """
+        pass
+    
+    @abstractmethod
+    def get_all_handlers(self) -> List[ICommandHandler]:
+        """
+        Get all registered command handlers.
+        
+        Returns:
+            List[ICommandHandler]: A list of all registered handlers
         """
         pass

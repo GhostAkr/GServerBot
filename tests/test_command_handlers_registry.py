@@ -98,11 +98,11 @@ class TestCommandHandlersRegistry:
         all_handlers = registry.get_all_handlers()
         
         assert len(all_handlers) == 2
-        assert all_handlers['/test1'] == handler1
-        assert all_handlers['/test2'] == handler2
+        assert handler1 in all_handlers
+        assert handler2 in all_handlers
         
-        # Test that returned dict is a copy, not the original
-        all_handlers['/test3'] = MockCommandHandler('/test3')
+        # Test that returned list is a copy, not the original
+        all_handlers.append(MockCommandHandler('/test3'))
         assert registry.count() == 2
     
     def test_has_handler(self):

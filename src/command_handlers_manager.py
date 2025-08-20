@@ -1,6 +1,8 @@
 from icommand_handlers_manager import ICommandHandlersManager
 from icommand_handlers_registry import ICommandHandlersRegistry
 from commands.ping import PingCommandHandler
+from typing import List
+from commands.icommand_handler import ICommandHandler
 
 
 class CommandHandlersManager(ICommandHandlersManager):
@@ -28,3 +30,12 @@ class CommandHandlersManager(ICommandHandlersManager):
         """
         ping_handler = PingCommandHandler()
         self._registry.add(ping_handler)
+    
+    def get_registered_handlers(self) -> List[ICommandHandler]:
+        """
+        Get all registered command handlers from the registry.
+        
+        Returns:
+            List[ICommandHandler]: A list of all registered handlers
+        """
+        return self._registry.get_all_handlers()

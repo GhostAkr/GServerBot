@@ -195,3 +195,79 @@ class TestCommandHandlersManager:
         assert concrete_registry.count() == 2
         assert concrete_registry.has_handler('/mock')
         assert concrete_registry.has_handler('/ping')
+    
+    def test_get_registered_handlers_returns_list(self, manager_with_mock, mock_registry):
+        """Test that get_registered_handlers returns a list of handlers."""
+        # Mock the registry's get_all_handlers method to return a list
+        mock_handlers = [Mock(), Mock()]
+        mock_registry.get_all_handlers.return_value = mock_handlers
+        
+        result = manager_with_mock.get_registered_handlers()
+        
+        assert result == mock_handlers
+        mock_registry.get_all_handlers.assert_called_once()
+    
+    def test_get_registered_handlers_integration_with_concrete_registry(self, manager_with_concrete, concrete_registry):
+        """Test that get_registered_handlers works with a concrete registry."""
+        # Initially no handlers
+        handlers = manager_with_concrete.get_registered_handlers()
+        assert len(handlers) == 0
+        
+        # Populate handlers
+        manager_with_concrete.populate_bot_handlers()
+        
+        # Get handlers again
+        handlers = manager_with_concrete.get_registered_handlers()
+        assert len(handlers) == 1
+        
+        # Verify the handler is correct
+        ping_handler = handlers[0]
+        from commands.ping import PingCommandHandler as ActualPingHandler
+        assert isinstance(ping_handler, ActualPingHandler)
+        assert ping_handler.name() == '/ping'
+    
+    def test_get_registered_handlers_delegates_to_registry(self, manager_with_mock, mock_registry):
+        """Test that get_registered_handlers properly delegates to the registry."""
+        # Mock the registry's get_all_handlers method
+        mock_registry.get_all_handlers.return_value = []
+        
+        # Call the manager method
+        manager_with_mock.get_registered_handlers()
+        
+        # Verify the registry method was called
+        mock_registry.get_all_handlers.assert_called_once()
+    
+    def test_get_registered_handlers_with_multiple_handlers(self, manager_with_concrete, concrete_registry):
+        """Test that get_registered_handlers works with multiple handlers."""
+        # Add multiple handlers
+        from src.commands.icommand_handler import ICommandHandler
+        
+        class MockHandler1(ICommandHandler):
+            def handle(self, update, context):
+                pass
+            
+            def name(self) -> str:
+                return '/mock1'
+        
+        class MockHandler2(ICommandHandler):
+            def handle(self, update, context):
+                pass
+            
+            def name(self) -> str:
+                return '/mock2'
+        
+        concrete_registry.add(MockHandler1())
+        concrete_registry.add(MockHandler2())
+        
+        # Populate with ping handler
+        manager_with_concrete.populate_bot_handlers()
+        
+        # Get all handlers
+        handlers = manager_with_concrete.get_registered_handlers()
+        assert len(handlers) == 3
+        
+        # Verify all handlers are present
+        handler_names = [handler.name() for handler in handlers]
+        assert '/mock1' in handler_names
+        assert '/mock2' in handler_names
+        assert '/ping' in handler_names

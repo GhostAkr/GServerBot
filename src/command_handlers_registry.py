@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from commands.icommand_handler import ICommandHandler
 
 
@@ -57,14 +57,14 @@ class CommandHandlersRegistry:
         """
         return self._handlers.get(command)
     
-    def get_all_handlers(self) -> dict[str, ICommandHandler]:
+    def get_all_handlers(self) -> List[ICommandHandler]:
         """
         Get all registered command handlers.
         
         Returns:
-            dict[str, ICommandHandler]: A copy of all registered handlers
+            List[ICommandHandler]: A list of all registered handlers
         """
-        return self._handlers.copy()
+        return list(self._handlers.values())
     
     def has_handler(self, command: str) -> bool:
         """
