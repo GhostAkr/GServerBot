@@ -2,7 +2,7 @@
 Telegram bot implementation.
 """
 
-from telegram.ext import ApplicationBuilder
+from telegram.ext import ApplicationBuilder, CommandHandler
 from icommand_handlers_manager import ICommandHandlersManager
 
 class TelegramBot:
@@ -21,6 +21,22 @@ class TelegramBot:
         applicationBuilder.token(token)
 
         self.application = applicationBuilder.build()
+        
+        # Register all command handlers
+        self._register_command_handlers()
+    
+    def _register_command_handlers(self):
+        """
+        Register all command handlers with the bot application.
+        
+        This method goes through the list of registered handlers and registers
+        each command in the bot.
+        """
+        handlers = self.get_registered_handlers()
+        for handler in handlers:
+            command_name = handler.name().lstrip('/')  # Remove leading slash for CommandHandler
+            command_handler = CommandHandler(command_name, handler.handle)
+            self.application.add_handler(command_handler)
     
     def run(self):
         """Start the bot."""
