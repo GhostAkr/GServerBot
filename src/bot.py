@@ -3,15 +3,19 @@ Telegram bot implementation.
 """
 
 from telegram.ext import ApplicationBuilder
-from icommand_handlers_registry import ICommandHandlersRegistry
+from icommand_handlers_manager import ICommandHandlersManager
 
 class TelegramBot:
     """Main Telegram bot class."""
-    
-    def __init__(self, token: str, command_handlers_registry: ICommandHandlersRegistry):
-        """Initialize the bot with a token and command handlers registry."""
+        
+    def __init__(
+        self,
+        token: str,
+        command_handlers_manager: ICommandHandlersManager
+    ):
+        """Initialize the bot with a token and command handlers manager."""
         self.token = token
-        self.command_handlers_registry = command_handlers_registry
+        self.command_handlers_manager = command_handlers_manager
 
         applicationBuilder = ApplicationBuilder()
         applicationBuilder.token(token)
