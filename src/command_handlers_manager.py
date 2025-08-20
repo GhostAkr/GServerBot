@@ -28,11 +28,3 @@ class CommandHandlersManager(ICommandHandlersManager):
         """
         ping_handler = PingCommandHandler()
         self._registry.add(ping_handler)
-    
-    def register(self) -> None:
-        """
-        Register all handlers in the bot.
-        
-        This method currently does nothing as specified in the requirements.
-        """
-        pass

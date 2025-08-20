@@ -14,10 +14,3 @@ class ICommandHandlersManager(ABC):
         Populate all command handlers in CommandHandlersRegistry.
         """
         pass
-    
-    @abstractmethod
-    def register(self) -> None:
-        """
-        Register all handlers in the bot.
-        """
-        pass

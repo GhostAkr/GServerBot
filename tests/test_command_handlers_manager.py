@@ -117,27 +117,6 @@ class TestCommandHandlersManager:
         with pytest.raises(ValueError, match="Test error"):
             manager_with_mock.populate_bot_handlers()
     
-    def test_register_method_does_nothing(self, manager_with_mock):
-        """Test that the register method currently does nothing as specified."""
-        # The register method should not raise any exceptions
-        manager_with_mock.register()
-        
-        # Verify no interactions with the registry
-        manager_with_mock._registry.assert_not_called()
-    
-    def test_register_method_can_be_called_multiple_times(self, manager_with_mock):
-        """Test that the register method can be called multiple times without issues."""
-        # First call
-        manager_with_mock.register()
-        
-        # Second call
-        manager_with_mock.register()
-        
-        # Third call
-        manager_with_mock.register()
-        
-        # Should not have caused any issues
-        assert True
     
     def test_manager_with_none_registry_works(self):
         """Test that CommandHandlersManager can be initialized with None registry (current behavior)."""
