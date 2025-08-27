@@ -26,10 +26,9 @@ class CommandHandlersManager(ICommandHandlersManager):
         """
         Populate all command handlers in CommandHandlersRegistry.
         
-        This method adds the PingCommandHandler to the handlers registry.
+        This method adds concrete command handlers to the handlers registry.
         """
-        ping_handler = PingCommandHandler()
-        self._registry.add(ping_handler)
+        self._registry.add(PingCommandHandler())
     
     def get_registered_handlers(self) -> List[ICommandHandler]:
         """
