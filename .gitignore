@@ -1,6 +1,9 @@
 # Macos
 .DS_Store
 
+# VS Code
+.vscode/
+
 # Python
 *venv/
 *__pycache__/
